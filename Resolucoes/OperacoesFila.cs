@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Resolucoes
+﻿namespace Resolucoes
 {
     public static class OperacoesFila
     {
@@ -39,9 +33,56 @@ namespace Resolucoes
 
             return relatorio;
         }
+
+        public static GameResults PlayBatataQuente2(int playersCount)
+        {
+            GameResults relatorio = new();
+            Queue<int> playersQueue = new();
+
+            for (int i = 0; i < playersCount; i++)
+                playersQueue.Enqueue(i + 1);
+
+            while (playersQueue.Count > 1)
+            {
+                relatorio.Turns++;
+                // O número de passes é diferente em cada round
+                int rounds = GetRoundsNumber();
+                for (int i = 0; i < rounds; i++)
+                {
+                    int topo = playersQueue.Dequeue();
+                    playersQueue.Enqueue(topo);
+                }
+                var loserPlayer = playersQueue.Dequeue();
+                // Inclui um registro informando o jogador que perdeu naquele turno
+                relatorio.MidTurnResults.Add(new MidTurnResult($"Player {loserPlayer}", relatorio.Turns));
+            }
+
+            relatorio.Winner = $"Player {playersQueue.Dequeue()}";
+
+            return relatorio;
+        }
+
         public static int GetRoundsNumber()
         {
             return new Random().Next(1, 101);
+        }
+
+        public class GameResults
+        {
+            public int Turns { get; internal set; }
+            public List<MidTurnResult> MidTurnResults { get; } = new List<MidTurnResult> ();
+            public string Winner { get; internal set; }
+        }
+        public class MidTurnResult
+        {
+            public string PlayerOut { get; }
+            public int Turn { get; }
+
+            public MidTurnResult(string playerOut, int turn)
+            {
+                PlayerOut = playerOut;
+                Turn = turn;
+            }
         }
     }
 }
