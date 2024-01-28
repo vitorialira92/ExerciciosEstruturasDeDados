@@ -58,6 +58,17 @@
                     Console.WriteLine($"JOGADOR {item.player} FOI O GANHADOR\n");
             }
 
+            // ##########################################################################
+
+            var batataQuenteResult = OperacoesFila.PlayBatataQuente2(10);
+            Console.WriteLine($"JOGO BATATA QUENTE TEVE {batataQuenteResult.Turns} RODADAS");
+            
+            foreach (var item in batataQuenteResult.MidTurnResults)
+                Console.WriteLine($"{item.PlayerOut} SAIU NO ROUND {item.Turn}");
+
+            Console.WriteLine($"O VENCEDOR FOI {batataQuenteResult.Winner}");
+
+            // ##########################################################################
 
             Console.WriteLine("\n\nExercício 4: *Utilizadno um dicionário, crie um contador de palavras.*\r\n" +
                 "O programa deve receber como entrada um texto e, usando dicionário, contar quantas ocorrências de cada palavra acontecem nesse texto\n");

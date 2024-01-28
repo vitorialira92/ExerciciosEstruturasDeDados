@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Resolucoes
+﻿namespace Resolucoes
 {
     public static class OperacoesDicionario
     {
         public static Dictionary<string, int> CountWords(string text)
         {
             Dictionary<string, int> values = new Dictionary<string, int>();
-            string[] sep = new string[] { " ", ", ", "; ", "! ", "? ", ",", ".", ";",  "!", "?"};
+            // Usar uma lista chars evita duplicações na lista como ter que considerar espaços antes e depois do caracter
+            char[] sep = [' ', ',', ';', '!', '?', ',', '.', ':', '-'];
 
-            List<string> words = text.Split(sep, StringSplitOptions.RemoveEmptyEntries).ToList();
+            // Não precisa ser uma lista para que você consiga iterar sobre os elementos.
+            var words = text.Split(sep, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var w in words)
             {
