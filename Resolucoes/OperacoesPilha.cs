@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Resolucoes
+﻿namespace Resolucoes
 {
     public static class OperacoesPilha
     {
@@ -19,22 +13,26 @@ namespace Resolucoes
                     case '[': s.Push(c); break;
                     case '{': s.Push(c); break;
                     default:
-                        if (s.Count > 0)
+                        if (c == ')' || c == ']' || c == '}')
                         {
-                            char c2 = s.Pop();
-                            if (c == ')' && c2 != '(')
+                            if (s.Count > 0)
+                            {
+                                char c2 = s.Pop();
+                                if (c == ')' && c2 != '(')
+                                    return false;
+                                if (c == ']' && c2 != '[')
+                                    return false;
+                                if (c == '}' && c2 != '{')
+                                    return false;
+                            }
+                            else
                                 return false;
-                            if (c == ']' && c2 != '[')
-                                return false;
-                            if (c == '}' && c2 != '{')
-                                return false;
-                            if(c != ')' && c != ']' && c!='}')
-                                s.Push(c2);
                         }
                         
                         break;
                 }
             }
+
             return s.Count == 0;
         }
     }
