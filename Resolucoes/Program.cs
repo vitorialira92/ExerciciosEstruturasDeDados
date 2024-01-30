@@ -20,7 +20,6 @@
                   "Inefável"
                };
             Console.WriteLine("Resultado:");
-
             int count = 0;
 
             foreach (string s in OperacoesListas.FilterLongStrings(input))
@@ -29,6 +28,8 @@
                 count++;
             }
             Console.WriteLine($"\nEsperado: 5 itens | Resultado: {count} | Passed:{count == 5}");
+
+            Console.WriteLine("\n\n\n\n\n");
 
             Console.WriteLine("\n\nExercício 2: Escreva uma função que receba uma expressão mátemática como entrada e verifique se a expressão está balanceada. " +
                 "\nUma expressão está balanceada se para cada parênteses de abertura, existe um parênteses de fechamento correspondente.\n");
@@ -44,20 +45,22 @@
 
             Console.WriteLine($"Expressão: {naoBalanceada}\nResultado esperado: false | Resultado: {segundoTeste} | Passed: {segundoTeste == false}");
 
+            Console.WriteLine("\n\n\n\n\n");
+
             Console.WriteLine("\n\nExercício 3: Escreva uma função que simule o jogo de batata quente. \r\n" +
                 "Nesse jogo, jogadores passam a batata quente por um círculo até ela explodir. O jogador que estiver com a batata quando explodir está fora do jogo.\n");
 
-            List<(int player, int roundLeft)> lista = OperacoesFila.PlayBatataQuente(90);
-            foreach(var item in lista)
-            {
-                if(item.player == 0)
-                    Console.WriteLine($"JOGO COM {item.roundLeft} PASSES POR ROUND");
-                else if(item.roundLeft != 0)
-                    Console.WriteLine($"JOGADOR {item.player} SAIU NO ROUND {item.roundLeft}");
-                else
-                    Console.WriteLine($"JOGADOR {item.player} FOI O GANHADOR\n");
-            }
+            GameResults results = OperacoesFila.PlayBatataQuente(10);
 
+            Console.WriteLine($"São {results.Turns} rounds no total");
+
+            foreach(var item in results.MidTurnResults)
+            {
+                Console.WriteLine($"Round {item.Turn} |> {item.PlayerOut} saiu");
+            }
+            Console.WriteLine($"Ganhador: {results.Winner}");
+
+            Console.WriteLine("\n\n\n\n\n");
 
             Console.WriteLine("\n\nExercício 4: *Utilizadno um dicionário, crie um contador de palavras.*\r\n" +
                 "O programa deve receber como entrada um texto e, usando dicionário, contar quantas ocorrências de cada palavra acontecem nesse texto\n");
