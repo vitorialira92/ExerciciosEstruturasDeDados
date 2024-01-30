@@ -1,47 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Resolucoes
+﻿namespace Resolucoes
 {
     public static class OperacoesFila
     {
-        public static List<(int player, int roundLeft)> PlayBatataQuente(int playersCount)
+        public static GameResults PlayBatataQuente(int playersCount)
         {
-            List<(int player, int roundLeft)> relatorio = new List<(int, int)>();
-
-            
-
-            int rounds = GetRoundsNumber();
-            relatorio.Add((0, rounds));
+            GameResults results = new GameResults();
             Queue<int> playersQueue = new Queue<int>();
             
             for(int i = 0; i < playersCount; i++)
-            {
                 playersQueue.Enqueue(i + 1);
-            }
-
-            int count = 1;
 
             while(playersQueue.Count > 1)
             {
+                results.Turns++;
+                int rounds = GetRoundsNumber();
                 for (int i = 0; i < rounds; i++)
                 {
                     int topo = playersQueue.Dequeue();
                     playersQueue.Enqueue(topo);
                 }
-                relatorio.Add((playersQueue.Dequeue(), count));
-                count++;
+                var loserPlayer = playersQueue.Dequeue();
+                results.MidTurnResults.Add(new MidTurnResult($"Player {loserPlayer}",results.Turns));
             }
-            relatorio.Add((playersQueue.Dequeue(), 0));
 
-            return relatorio;
+            results.Winner = $"Player {playersQueue.Dequeue()}";
+
+            return results;
         }
         public static int GetRoundsNumber()
         {
             return new Random().Next(1, 101);
+        }
+    }
+
+    public class GameResults
+    {
+        public int Turns { get; internal set; }
+        public List<MidTurnResult> MidTurnResults { get; } = new List<MidTurnResult>();
+        public string Winner { get; internal set; }
+
+    }
+    public class MidTurnResult
+    {
+        public string PlayerOut { get; }
+        public int Turn { get; }
+
+        public MidTurnResult(string playerOut, int turn)
+        {
+            PlayerOut = playerOut;
+            Turn = turn;
         }
     }
 }
